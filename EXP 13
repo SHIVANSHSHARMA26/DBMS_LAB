@@ -1,0 +1,87 @@
+Q1)
+        SQL> select ename,job,sal from emp1;
+
+ENAME      JOB               SAL
+---------- ---------- ----------
+ADAMS      CLERK            5000
+MILLER     CLERK            6000
+TURNER     ANALYST          3000
+ERIC       SALESMAN         3000
+SMITH      CLERK             800
+ALLEN      SALESMAN         1600
+WARD       SALESMAN         1250
+JONES      MANAGER          2975
+MARTIN     SALESMAN         1250
+BLAKE      MANAGER          2850
+SCOTT      ANALYST          3000
+
+ENAME      JOB               SAL
+---------- ---------- ----------
+FORD       ANALYST          3000
+
+12 rows selected.
+
+SQL>
+ Declare
+     num number(5);
+     Begin
+    update emp1 set sal = sal + sal*0.15 where deptno=20;
+     if SQL%NOTFOUND then
+     dbms_output.put_line('none of the salaries were updated');
+     elsif SQL%FOUND then
+    num := SQL%ROWCOUNT;
+     dbms_output.put_line('salaries for ' || num || 'employees are updated');
+  end if;
+   End;
+ 12  /
+salaries for 7employees are updated
+
+PL/SQL procedure successfully completed.
+
+SQL> select ename,job,sal from emp1;
+
+ENAME      JOB               SAL
+---------- ---------- ----------
+ADAMS      CLERK            5750
+MILLER     CLERK            6900
+TURNER     ANALYST          3450
+ERIC       SALESMAN         3000
+SMITH      CLERK             920
+ALLEN      SALESMAN         1600
+WARD       SALESMAN         1250
+JONES      MANAGER       3421.25
+MARTIN     SALESMAN         1250
+BLAKE      MANAGER          2850
+SCOTT      ANALYST          3450
+
+ENAME      JOB               SAL
+---------- ---------- ----------
+FORD       ANALYST          3450
+
+12 rows selected.
+
+SQL>
+_________________________________________________________________________________________
+Q2)
+create table emp_grade(empno number, grade char(2)); 
+Declare	
+	Emp_rec emp1%rowtype;
+	Cursor c is select * into emp_grade from emp1;
+Begin
+	Open c;
+	If c%ISOPEN then Loop
+		Fetch c into emp_rec;
+	If c%notfound then 
+	Exit; 
+	End if; 
+	If emp_rec.sal <= 1400 then
+		Insert into emp_grade values(emp_rec.empno,'C'); 
+	Elsif emp_rec.sal between 1401 and 2000 then
+		Insert into emp_grade values(em_rec.empno,'B'); 
+	Else
+		Insert into emp_grade values(em_rec.empno,'A'); 
+	End if;
+	End loop;
+	Else
+End if;
+End;
