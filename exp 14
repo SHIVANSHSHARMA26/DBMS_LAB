@@ -1,0 +1,50 @@
+EXP14
+Q1
+
+SQL>
+ declare
+    a number;
+    b number;
+   c number;
+    begin
+    a:=&a;
+    b:=&b;
+    if(b>0)then
+    c:=a/b;
+    dbms_output.put_line('C is'||c);
+    else
+    c:=a/b;
+    end if;
+    exception
+    when zero_divide then
+    dbms_output.put_line('Divide by zero error');
+   end;
+   /
+Enter value for a: 3
+old   6:  a:=&a;
+new   6:  a:=3;
+Enter value for b: 2
+old   7:  b:=&b;
+new   7:  b:=2;
+C is1.5
+
+Q2)
+declare
+    age number;
+    inage exception;
+    begin
+    age:=&age;
+  if ((age>=0) and (age<200))then
+    dbms_output.put_line('Your Age is:'||age);
+   else
+    raise inage;
+   end if;
+   exception
+   when inage then
+   dbms_output.put_line('Invalid age error');
+   end;
+  /
+Enter value for age: 10
+old   5:  age:=&age;
+new   5:  age:=10;
+Your Age is:10
