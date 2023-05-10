@@ -1,0 +1,41 @@
+Q1)
+SQL>    create or replace trigger salarychange
+  2      before  insert or update on employee
+  3      for each row
+  4      when (new.eno>0)
+  5    declare
+  6  sal_diff number;
+  7      begin
+  8      sal_diff:=:new.sal - :old.sal;
+  9  dbms_output.put_line('Old Salary = '|| :old.sal);
+ 10  dbms_output.put_line('New Salary = '|| :new.sal);
+ 11  dbms_output.put_line('Salary Difference = '|| sal_diff);
+ 12      end;
+ 13  /
+
+Trigger created.
+
+
+SQL> select * from employee;
+
+       ENO ENAME      DEPT              SAL
+---------- ---------- ---------- ----------
+       100 robin      ca              20000
+       101 ravish     ca              15000
+       102 shub       ca              30000
+       103 amish      ca              14000
+       104 rahul      it              15000
+
+SQL> insert into employee(eno,ename,dept,sal) values (6,’giri’,’cs’,5000);
+Old Salary =
+New Salary = 5000
+Salary Difference =
+
+1 row created.
+
+SQL> update employee set sal=sal+500 where eno=102;
+Old Salary = 30000
+New Salary = 30500
+Salary Difference = 500
+
+1 row updated.
